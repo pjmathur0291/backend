@@ -32,16 +32,16 @@ const app = express()
 // Middleware
 
 const allowedOrigins = [
-  'https://cloud-alpha-ten.vercel.app/'.
-  'https://cloud-alpha-ten.vercel.app/admin'
-].filter(Boolean);
+  'https://cloud-alpha-ten.vercel.app',
+  'http://localhost:5173'
+];
 
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("CORS not allowed"));
+      callback(new Error(`CORS not allowed for origin: ${origin}`));
     }
   },
   credentials: true
