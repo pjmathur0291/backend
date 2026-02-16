@@ -30,10 +30,25 @@ const __dirname = path.dirname(__filename)
 const app = express()
 
 // Middleware
+
+const allowedOrigins = [
+  'https://cloud-alpha-ten.vercel.app/'.
+  'https://cloud-alpha-ten.vercel.app/admin'
+].filter(Boolean);
+
 app.use(cors({
-  origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL].filter(Boolean),
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
   credentials: true
-}))
+}));
+
+
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
